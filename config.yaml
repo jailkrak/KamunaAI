@@ -1,0 +1,35 @@
+project:
+  name: "Forex AI Analysis System"
+  version: "1.0"
+  focus: "Market Analysis (Not Prediction)"
+  
+data:
+  source: "yfinance"
+  symbol: "EURUSD=X"
+  timeframe: "1h"
+  years: 5
+  
+model:
+  type: "Transformer"
+  parameters: "200M"
+  architecture:
+    transformer_blocks: 12
+    embed_dim: 1024
+    num_heads: 16
+    ff_dim: 4096
+    
+training:
+  batch_size: 32
+  epochs: 100
+  learning_rate: 0.0001
+  early_stopping_patience: 20
+  
+analysis_tasks:
+  - direction_prediction
+  - volatility_regime
+  - support_resistance
+  - trend_strength
+  
+risk_management:
+  max_risk_per_trade: 0.02
+  volatility_scaling: true

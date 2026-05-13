@@ -1,0 +1,16 @@
+yfinance
+pandas
+numpy
+pandas-ta
+plotly
+matplotlib
+seaborn
+scikit-learn
+tensorflow
+tensorflow-addons
+xgboost
+lightgbm
+optuna
+joblib
+ta
+scipy
