@@ -1,0 +1,21 @@
+{
+  "name": "get_forex_signal",
+  "description": "Get real-time forex trading signal and analysis from AI model",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "symbol": {
+        "type": "string",
+        "description": "Forex pair symbol (e.g., EURUSD=X, GBPUSD=X, USDJPY=X)",
+        "enum": ["EURUSD=X", "GBPUSD=X", "USDJPY=X", "USDCHF=X", "AUDUSD=X", "USDCAD=X", "NZDUSD=X"]
+      },
+      "analysis_type": {
+        "type": "string",
+        "description": "Type of analysis to perform",
+        "enum": ["quick", "full"],
+        "default": "quick"
+      }
+    },
+    "required": ["symbol"]
+  }
+}

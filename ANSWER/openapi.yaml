@@ -1,0 +1,212 @@
+openapi: 3.0.0
+info:
+  title: Forex AI Analysis API
+  description: |
+    API for real-time Forex market analysis and trading signals.
+    This API provides RSI-based analysis for major currency pairs.
+    
+    ## Features
+    - Real-time forex data from Yahoo Finance
+    - RSI (Relative Strength Index) calculation
+    - Trading signals (BUY/SELL/NEUTRAL)
+    - Technical indicators (RSI, MACD, Bollinger Bands, ATR)
+    - Risk management suggestions (Stop Loss, Take Profit)
+    
+    ## Model Information
+    - Model Type: rule_based_rsi
+    - Strategy: RSI Mean Reversion
+    - Accuracy: 52.12%
+    - RSI Buy Threshold: 30
+    - RSI Sell Threshold: 70
+  
+  version: 1.0.0
+  contact:
+    name: Forex AI API Support
+    url: http://localhost:8000/docs
+
+servers:
+  - url: http://localhost:8000
+    description: Local Development Server
+  - url: http://192.168.1.100:8000
+    description: Local Network Server (Replace with your IP)
+
+tags:
+  - name: Health
+    description: Health check endpoints
+  - name: Analysis
+    description: Forex analysis endpoints
+  - name: Signal
+    description: Trading signal endpoints
+  - name: Information
+    description: API and model information
+
+paths:
+  /:
+    get:
+      summary: API Information
+      description: Get basic information about the API
+      tags: [Information]
+      responses:
+        '200':
+          description: API information
+          content:
+            application/json:
+              example:
+                name: "Forex AI Analysis API"
+                version: "1.0.0"
+                status: "running"
+
+  /health:
+    get:
+      summary: Health Check
+      description: Check if API is running properly
+      tags: [Health]
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              example:
+                status: "healthy"
+                timestamp: "2026-05-13T12:00:00"
+
+  /model/info:
+    get:
+      summary: Model Information
+      description: Get detailed information about the AI model
+      tags: [Information]
+      responses:
+        '200':
+          description: Model details
+          content:
+            application/json:
+              example:
+                model_type: "rule_based_rsi"
+                strategy: "RSI Mean Reversion"
+                rsi_buy_threshold: 30
+                rsi_sell_threshold: 70
+                accuracy: 0.5212
+
+  /pairs:
+    get:
+      summary: Available Forex Pairs
+      description: Get list of available currency pairs
+      tags: [Information]
+      responses:
+        '200':
+          description: List of forex pairs
+          content:
+            application/json:
+              example:
+                majors: ["EURUSD=X", "GBPUSD=X", "USDJPY=X"]
+                minors: ["EURGBP=X", "EURJPY=X"]
+
+  /signal/{symbol}:
+    get:
+      summary: Quick Trading Signal
+      description: Get trading signal for a specific forex pair (lightweight)
+      tags: [Signal]
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          description: Forex pair symbol (e.g., EURUSD=X, GBPUSD=X)
+          schema:
+            type: string
+            example: EURUSD=X
+      responses:
+        '200':
+          description: Trading signal response
+          content:
+            application/json:
+              example:
+                success: true
+                timestamp: "2026-05-13T12:00:00"
+                symbol: "EURUSD"
+                price: 1.08945
+                rsi: 24.3
+                signal: "BUY"
+                confidence: 0.514
+                reason: "RSI Oversold (24.3 < 30)"
+                model_accuracy: 0.5212
+        '404':
+          description: Symbol not found
+        '400':
+          description: Invalid request
+
+  /analyze/{symbol}:
+    get:
+      summary: Full Forex Analysis
+      description: Complete technical analysis with multiple indicators
+      tags: [Analysis]
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          description: Forex pair symbol
+          schema:
+            type: string
+            example: EURUSD=X
+        - name: period
+          in: query
+          required: false
+          description: Data period (1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y)
+          schema:
+            type: string
+            default: 7d
+        - name: interval
+          in: query
+          required: false
+          description: Time interval (1m, 5m, 15m, 30m, 1h, 4h, 1d)
+          schema:
+            type: string
+            default: 1h
+      responses:
+        '200':
+          description: Complete analysis response
+          content:
+            application/json:
+              example:
+                success: true
+                symbol: "EURUSD"
+                current_price: 1.08945
+                indicators:
+                  rsi: 24.3
+                  macd_histogram: -0.000123
+                  bollinger_upper: 1.09500
+                  bollinger_lower: 1.08400
+                  atr: 0.00123
+                signal:
+                  action: "BUY"
+                  strength: "STRONG"
+                  reason: "RSI Oversold"
+                  confidence: 0.514
+                risk_management:
+                  stop_loss: 1.08760
+                  take_profit: 1.09200
+                  risk_reward_ratio: 1.33
+
+components:
+  schemas:
+    SignalResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        timestamp:
+          type: string
+        symbol:
+          type: string
+        price:
+          type: number
+        rsi:
+          type: number
+        signal:
+          type: string
+          enum: [BUY, SELL, NEUTRAL]
+        confidence:
+          type: number
+        reason:
+          type: string
+        model_accuracy:
+          type: number
