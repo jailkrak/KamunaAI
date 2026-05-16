@@ -1,0 +1,27 @@
+# CyberScout Custom Headers Template
+# 
+# Use this file to define complex header sets for specific targets.
+# Load it via CLI: cyber-scout -u example.com -c config/headers.yaml
+#
+# Note: These headers are merged into http.custom_headers in config.rs.
+# CLI --header flags will override these values if keys conflict.
+
+custom_headers:
+  # Standard Browser Emulation
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  "Referer": "https://www.google.com/"
+  "Origin": "https://example.com"
+  
+  # Caching Control
+  "Cache-Control": "no-cache, no-store, must-revalidate"
+  "Pragma": "no-cache"
+  "Expires": "0"
+  
+  # Security Testing Headers (Optional)
+  # "X-Forwarded-For": "127.0.0.1"
+  # "X-Real-IP": "127.0.0.1"
+  # "X-Original-URL": "/admin"
+  
+  # API Testing Headers
+  # "Content-Type": "application/json"
+  # "Authorization": "Bearer YOUR_TOKEN_HERE"

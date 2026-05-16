@@ -1,0 +1,117 @@
+# CyberScout Default Configuration
+# This file is loaded by src/config.rs and merged with CLI arguments.
+# CLI arguments always take precedence over these values.
+
+# -----------------------------------------------------------------------------
+# HTTP Client Settings
+# -----------------------------------------------------------------------------
+http:
+  # Request timeout in seconds
+  timeout: 10
+  
+  # Connection establishment timeout in seconds
+  connect_timeout: 5
+  
+  # Maximum retry attempts for failed requests (timeouts, 5xx)
+  max_retries: 3
+  
+  # Base backoff time in milliseconds for exponential retry
+  retry_backoff_ms: 500
+  
+  # Automatically follow HTTP redirects (301, 302, etc.)
+  follow_redirects: true
+  
+  # ⚠️ DANGER: Accept invalid SSL certificates. 
+  # Only enable for internal testing or self-signed certs.
+  allow_invalid_certs: false
+  
+  # Rotate User-Agent header from a predefined list for each request
+  rotate_user_agent: true
+  
+  # Proxy URL (e.g., "socks5://127.0.0.1:9050" or "http://user:pass@proxy:8080")
+  # Leave empty or commented out to disable proxy
+  # proxy: "socks5://127.0.0.1:9050"
+  
+  # Enable HTTP/2 support if server supports it
+  http2: true
+  
+  # Enable gzip/brotli compression for faster transfers
+  compression: true
+  
+  # Custom headers defined here are merged with CLI --header flags
+  custom_headers:
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+    "Accept-Language": "en-US,en;q=0.5"
+    "Accept-Encoding": "gzip, deflate, br"
+    "Connection": "keep-alive"
+    "Upgrade-Insecure-Requests": "1"
+
+# -----------------------------------------------------------------------------
+# DNS Resolver Settings
+# -----------------------------------------------------------------------------
+dns:
+  # Custom DNS servers to use. If empty, uses system default.
+  # Example: ["8.8.8.8", "1.1.1.1", "9.9.9.9"]
+  name_servers: []
+  
+  # DNS query timeout in seconds
+  timeout: 5
+  
+  # Enable local caching of DNS results to speed up repeated scans
+  cache_enabled: true
+  
+  # Time-to-Live for cached DNS entries in seconds
+  cache_ttl: 300
+  
+  # Resolve both IPv4 (A) and IPv6 (AAAA) records
+  resolve_ipv6: true
+
+# -----------------------------------------------------------------------------
+# Scanner Behavior Settings
+# -----------------------------------------------------------------------------
+scanner:
+  # Status codes to INCLUDE in results. Empty list means include all.
+  # Common recon filters: [200, 301, 302, 403, 404]
+  filter_status_codes: [200, 301, 302, 403, 404]
+  
+  # Status codes to EXCLUDE from results (takes precedence over filter)
+  # Useful for ignoring known bad responses like 429 (Too Many Requests)
+  exclude_status_codes: [429, 503]
+  
+  # Minimum content length in bytes to consider a result valid (0 = no filter)
+  min_content_length: 0
+  
+  # Maximum content length in bytes (0 = no limit)
+  max_content_length: 0
+  
+  # Rate limit: Maximum requests per second. 
+  # Set to 0 or null for unlimited speed (be careful of IP bans)
+  rate_limit_per_second: 50
+  
+  # Automatically try HTTPS if HTTP fails or times out
+  https_fallback: true
+  
+  # Extract HTML <title> tags from responses (adds slight overhead)
+  extract_titles: false
+  
+  # Detect common technologies (WAF, Frameworks) based on headers
+  tech_detection: false
+
+# -----------------------------------------------------------------------------
+# Output & UI Settings
+# -----------------------------------------------------------------------------
+output:
+  # Enable colored terminal output
+  colored: true
+  
+  # Show progress bar during scanning
+  show_progress: true
+  
+  # Verbosity level: 0 (quiet), 1 (normal), 2 (debug), 3 (trace)
+  verbosity: 1
+  
+  # Save raw HTTP response bodies to disk (DEBUG ONLY - creates large files)
+  save_raw_responses: false
+  
+  # Default directory for saving logs/exports if not specified via CLI
+  # output_dir: "./scans"
