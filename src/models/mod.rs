@@ -8,6 +8,5 @@ pub mod status;
 pub mod target;
 
 // Re-export primary types for ergonomic imports in other modules
-pub use result::{ScanResult, HeaderKV, ScanType};
+pub use result::ScanResult;
 pub use status::StatusCategory;
-pub use target::Target;

@@ -10,4 +10,3 @@ pub mod progress;
 // Re-export primary types for ergonomic usage in main.rs
 pub use exporter::save_results;
 pub use printer::TerminalPrinter;
-pub use progress::ProgressManager;
