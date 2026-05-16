@@ -3,7 +3,7 @@
 
 ### Your project is still in progress.
 
-### Release Soon.
+### Release soon.
 
 
 
