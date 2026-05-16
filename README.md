@@ -51,7 +51,7 @@ Directory brute-force scan
 [+] Found: /login
 [+] Scan completed in 2.34s
 ```
-##🧠 Configuration
+## 🧠 Configuration
 Edit config/default.yaml:
 ```edit
 concurrency: 50
